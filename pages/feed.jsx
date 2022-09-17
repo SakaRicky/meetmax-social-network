@@ -7,6 +7,16 @@ import { useStateValue, setUser, setAlert } from '../contexts';
 import { auth } from '../services/firebase';
 import { getPosts, getUser } from '../services';
 
+export const fetchPosts = async (setPosts, setdisplayPostSubMenu) => {
+  const receivedPosts = await getPosts();
+  const receivedPostsSortedByRecentDate = receivedPosts.sort(
+    (a, b) => b.createdDate - a.createdDate
+  );
+  console.log('receivedPostsSortedByRecentDate in feeds: ', receivedPostsSortedByRecentDate);
+  setdisplayPostSubMenu(receivedPosts.map((post) => ({ id: post.postId, show: false })));
+  setPosts(receivedPostsSortedByRecentDate);
+};
+
 const Feed = () => {
   // eslint-disable-next-line no-unused-vars
   const { state, dispatch } = useStateValue();
@@ -15,16 +25,6 @@ const Feed = () => {
   const [displayPostSubMenu, setdisplayPostSubMenu] = useState([]);
 
   const router = useRouter();
-
-  const fetchPosts = async () => {
-    const receivedPosts = await getPosts();
-    const receivedPostsSortedByRecentDate = receivedPosts.sort(
-      (a, b) => b.createdDate - a.createdDate
-    );
-    console.log('receivedPostsSortedByRecentDate in feeds: ', receivedPostsSortedByRecentDate);
-    setdisplayPostSubMenu(receivedPosts.map((post) => ({ id: post.postId, show: false })));
-    setPosts(receivedPostsSortedByRecentDate);
-  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -67,7 +67,7 @@ const Feed = () => {
   }, []);
 
   useEffect(() => {
-    fetchPosts();
+    fetchPosts(setPosts, setdisplayPostSubMenu);
   }, []);
 
   return (

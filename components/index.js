@@ -17,3 +17,5 @@ export { NavBar } from './NavBar';
 export { GenderPicker } from './GenderPicker';
 export { Modal } from './Modal';
 export { FriendsList } from './FriendList';
+export { Cover } from './Profile/Cover';
+export { Intro } from './Profile/Intro';

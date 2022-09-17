@@ -22,7 +22,7 @@ export const Sidebar = () => {
   };
 
   const navs = [
-    { name: 'Feed', path: '/', comp: feedSVG, notification: 0 },
+    { name: 'Feed', path: '/feed', comp: feedSVG, notification: 0 },
     // {
     //   name: 'My Community',
     //   path: '/community',
